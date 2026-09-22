@@ -1,0 +1,36 @@
+---
+import en from "../../i18n/en";
+import es from "../../i18n/es";
+import Layout from "../../layouts/Layout.astro";
+import Goal from "../../sections/Goal.astro";
+import Hero from "../../sections/Hero.astro";
+import Services from "../../sections/Services.astro";
+import Strategic from "../../sections/Strategic.astro";
+
+import type { Language } from "../../types/language.type";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+export const defaultRedirect = "/en";
+
+const lang = Astro.params.lang as Language;
+const translations = { es, en };
+const t = translations[lang];
+const seo = t.seo.main;
+---
+
+<Layout
+  lang={lang}
+  t={t}
+  title={seo.title}
+  description={seo.description}
+  keywords={seo.keywords}
+  canonicalPath="/"
+>
+  <Hero content={t.main.hero} />
+  <Services content={t.main.services} />
+  <Strategic content={t.main.strategic} />
+  <Goal content={t.main.goal} />
+</Layout>

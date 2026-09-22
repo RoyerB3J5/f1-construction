@@ -1,0 +1,53 @@
+---
+import Button from "../components/Button.astro";
+type Translations = typeof import("../i18n/en").default;
+type HeroContent = Translations["main"]["hero"];
+interface Props {
+  content: HeroContent;
+  changeColor?: boolean;
+}
+const { content, changeColor } = Astro.props as Props;
+
+// Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
+const pathname = Astro.url.pathname;
+const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
+---
+
+<section
+  class="w-full h-[100svh] md:h-[60vh] xl:h-[100vh] flex justify-center items-end overflow-hidden relative pt-(--header-height)"
+>
+  <img
+    src={`/images/hero.webp`}
+    alt="Hero image"
+    width="1920"
+    height="1080"
+    class="z-0 w-full h-full absolute inset-0 object-cover object-[50%_20%] 3xl:object-centerblock"
+  />
+
+  <div
+    class="container-full h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 md:py-8 xl:py-[1vw] 3xl:py-4 "
+  >
+    <div
+      class="flex flex-col justify-center items-center gap-5 w-full"
+    >
+      <h1 class='title text-primary capitalize'>{content.title}</h1>
+      <p class="paragraph text-primary text-center" set:html={content.description}></p>
+      <div class='flex justify-center items-center gap-4'>
+        <Button
+          text={content.buttons[0].label}
+          href={content.buttons[0].href}
+          textClass="capitalized"
+          extraBtnClass="flex bg-secondary border-secondary"
+          colorText="text-white" 
+        />
+        <Button
+          text={content.buttons[1].label}
+          href={content.buttons[1].href}
+          textClass="capitalized"
+          colorText="text-primary"
+          extraBtnClass="flex bg-white border-white"
+        />
+      </div>
+    </div>
+  </div>
+</section>

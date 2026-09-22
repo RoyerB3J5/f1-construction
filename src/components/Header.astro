@@ -1,0 +1,310 @@
+---
+
+import { X } from "@lucide/astro";
+import Button from "./Button.astro";
+import ChangeLanguage from "./ChangeLanguage.astro";
+
+type Translations = typeof import("../i18n/en").default;
+type HeaderContent = Translations["header"];
+interface Props {
+  content?: HeaderContent;
+}
+const { content } = Astro.props as Props;
+
+// Obtener la ruta actual y normalizar el path sin prefijo de idioma
+const currentPath = Astro.url.pathname;
+// Normalizar: remover idioma y trailing slash
+const normalized =
+  currentPath.replace(/^\/(en|es)/, "").replace(/\/$/, "") || "/";
+// Detectar el idioma actual ('en' o 'es')
+const match = currentPath.match(/^\/(en|es)/);
+const lang = match ? match[1] : "en";
+---
+
+<header
+  class={`fixed left-0 right-0 z-50 w-full flex flex-col justify-center items-center top-0 header-intro`}
+  id="site-header"
+  style="transition: transform 0.3s ease-out, background-color 0.3s ease-out; will-change: transform;"
+>
+  <div
+    class="bg-primary py-2.5 md:flex justify-center items-center gap-2 w-full hidden"
+    
+  >
+    <p
+      class="text-[13px] font-medium leadong-[100%] text-white"
+      set:html={content?.description}
+    />
+  </div>
+  <div class="w-full flex justify-center items-center h-18 md:h-20">
+    <div class="container-full flex justify-between items-center relative">
+      <a
+        href={`/${lang}`}
+        aria-label="Ir a la página principal"
+        title="F1 Construction - Init"
+      >
+        <img
+          src="/images/logo.svg"
+          alt="Logo de F1 Construction"
+          title="F1 Construction - Init"
+          width="194"
+          height="32"
+          class="cursor-pointer w-[94px] md:w-[194px] h-auto"
+        />
+      </a>
+      <div
+        class="relative xl:flex flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out hidden"
+      >
+        <nav>
+          <ul class="flex relative items-center flex-row justify-center w-auto">
+            {
+              content?.nav.map((item, index) => {
+                const itemPathWithoutHash = item.href.split("#")[0];
+                const isActive = normalized === itemPathWithoutHash;
+                return (
+                  <li
+                    class={`flex flex-row items-center justify-center group w-auto text-center $`}
+                    id={`nav-item-${index}`}
+                  >
+                    <a
+                      href={`/${lang}${item.href}`}
+                      class="relative transition-colors duration-300 flex justify-center items-center w-[112px]"
+                    >
+                      <p
+                        class={`text-[16px] font-medium leading-[120%] transition-all duration-300 ease-in-out text-primary   font-paragraph`}
+                        set:html={item.label}
+                      />
+                      <span
+                        class={`absolute -bottom-5 left-1/2 h-0.5 bg-secondary transition-all duration-300 ease-out -translate-x-1/2 ${isActive ? "w-full" : "w-0 group-hover:w-full group-hover:bg-secondary"}`}
+                      />
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </nav>
+      </div>
+
+      <div class="flex justify-center items-center gap-2 md:gap-4">
+        <Button
+          text={content?.buttons[0].label}
+          href={content?.buttons[0].href}
+          textClass="capitalized"
+          extraBtnClass="hidden lg:flex bg-secondary border-secondary"
+        />
+        {/*<ChangeLanguage /> */}
+
+        <button
+          type="button"
+          aria-label="Abrir menú de navegación"
+          title="Abrir menú"
+          class="flex xl:hidden items-center justify-center cursor-pointer w-10 h-10 rounded overflow-hidden"
+          id="hamburger-btn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            viewBox="0 0 40 40"
+            fill="none"
+          >
+            <rect x="0.5" y="0.5" width="39" height="39" rx="5.5" fill="#B52132"
+            ></rect>
+            <rect x="0.5" y="0.5" width="39" height="39" rx="5.5" stroke="black"
+            ></rect>
+            <path
+              d="M6 29V26H33V29H6ZM6 21.5V18.5H33V21.5H6ZM6 14V11H33V14H6Z"
+              fill="white"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div
+  class="fixed top-0 right-0 bottom-0 xl:hidden flex items-start bg-paragraph text-white flex-col justify-start h-full z-60 pb-12 px-4 pt-6 gap-6 transform translate-x-full transition-transform duration-300 ease-out w-full"
+  id="mobile-menu"
+>
+  <div class="flex flex-col justify-center items-center gap-8 w-full">
+    <X
+      class="block cursor-pointer z-20 w-6 h-6 text-white self-end"
+      id="close-btn"
+      aria-label="Cerrar menú de navegación"
+      title="Cerrar menú"
+      role="button"
+      tabindex="0"
+    />
+    <a
+      href={`/${lang}`}
+      aria-label="Ir a la página principal"
+      title="Philly Steak - Init"
+    >
+      <img
+        src="/images/logo.svg"
+        alt="Logo de Orlando's Philly Steak "
+        width="240"
+        height="127"
+        class="cursor-pointer w-[150px] h-auto"
+      />
+    </a>
+    <nav class="w-full">
+      <ul
+        class="relative flex items-start flex-col justify-center w-full gap-6"
+      >
+        {
+          content?.nav.map((item, index) => {
+            const itemPathWithoutHash = item.href.split("#")[0];
+            const isActive = normalized === itemPathWithoutHash;
+            return (
+              <>
+                <li
+                  class={`flex flex-col items-start justify-start group gap-3.5 px-4 w-full text-start  ${isActive ? "bg-secondary text-white uppercase " : ""}`}
+                  id={`mobile-nav-item-${index}`}
+                >
+                  <a
+                    href={`/${lang}${item.href}`}
+                    class="relative transition-colors duration-300 flex justify-start items-center w-full py-6 gap-6"
+                    aria-expanded="false"
+                  >
+                    {isActive && (
+                      <div class={`w-1.5 h-1.5 bg-accent rotate-45  `} />
+                    )}
+                    <p
+                      class={`text-[20px] font-normal leading-[100%] tracking-[-0.5px] ${isActive ? "text-white uppercase font-rust" : "text-white font-paragraph"}`}
+                      set:html={item.label}
+                    />
+                  </a>
+                </li>
+              </>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+  <div class="flex flex-col justify-center items-center gap-4 w-full">
+    <Button
+      text={content?.buttons[1].label}
+      href={content?.buttons[1].href}
+      target="_blank"
+      textClass="uppercase text-paragraph"
+      extraBtnClass={`bg-white border-white w-full`}
+    />
+    <Button
+      text={content?.buttons[0].label}
+      href={content?.buttons[0].href}
+      target="_blank"
+      textClass="uppercase text-white"
+      extraBtnClass={`bg-secondary border-secondary w-full`}
+    />
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Mobile menu logic - matches xl breakpoint (1280px)
+    const menu = document.getElementById("mobile-menu");
+    const openBtn = document.getElementById("hamburger-btn");
+    const closeBtn = document.getElementById("close-btn");
+    const body = document.body;
+
+    const isMobile = () => window.innerWidth < 1280;
+
+    function openMenu() {
+      if (isMobile() && menu) {
+        menu.classList.replace("translate-x-full", "translate-x-0");
+        body.classList.add("overflow-hidden");
+      }
+    }
+
+    function closeMenu() {
+      if (isMobile() && menu) {
+        menu.classList.replace("translate-x-0", "translate-x-full");
+        body.classList.remove("overflow-hidden");
+      }
+    }
+
+    if (openBtn) openBtn.addEventListener("click", openMenu);
+    if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+    // Close mobile menu when clicking a link
+    if (menu) {
+      menu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+    }
+
+    // Header: height var + hide on scroll down / show on scroll up
+    const header = document.getElementById("site-header");
+
+    function updateHeaderHeight() {
+      const height = header?.offsetHeight || 0;
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${height}px`,
+      );
+    }
+    if (header) {
+      updateHeaderHeight();
+      window.addEventListener("resize", updateHeaderHeight);
+    }
+
+    if (!header) return;
+
+    let lastScrollY = window.scrollY || document.documentElement.scrollTop;
+    let ticking = false;
+    const HIDE_AFTER = 80; // start hiding only after scrolling past this
+    const DELTA = 5; // ignore tiny jitter
+
+    const showHeader = () => {
+      header.style.transform = "translateY(0)";
+    };
+
+    const hideHeader = () => {
+      header.style.transform = "translateY(-100%)";
+    };
+
+    const isMenuOpen = () =>
+      menu?.classList.contains("translate-x-0") ?? false;
+
+    const onScroll = () => {
+      const currentY = window.scrollY || document.documentElement.scrollTop;
+      const diff = currentY - lastScrollY;
+
+      // Don't hide while mobile menu is open
+      if (isMenuOpen()) {
+        showHeader();
+        lastScrollY = currentY;
+        ticking = false;
+        return;
+      }
+
+      // Always visible at the very top
+      if (currentY <= HIDE_AFTER) {
+        showHeader();
+      } else if (diff > DELTA) {
+        // Scrolling down -> hide
+        hideHeader();
+      } else if (diff < -DELTA) {
+        // Scrolling up -> show
+        showHeader();
+      }
+
+      lastScrollY = currentY;
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(onScroll);
+        }
+      },
+      { passive: true },
+    );
+    onScroll();
+  });
+</script>

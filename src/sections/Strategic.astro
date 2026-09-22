@@ -1,0 +1,29 @@
+---
+import Button from "../components/Button.astro";
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["main"]["strategic"];
+interface Props {
+  content: Content;
+}
+const { content } = Astro.props as Props;
+---
+<section class='w-full flex justify-center items-center bg-primary'>
+  <div class="container-full flex justify-center items-center gap-6 py-20">
+    <div class="flex flex-col justify-center items-start gap-14 w-1/2">
+      <div class='flex flex-col justify-center items-start gap-8'>
+        <h2 class='subtitle text-white capitalize'>{content.title}</h2>
+        <p set:html={content.description} class="paragraph text-white w-[85%]"></p>
+      </div>
+      <Button
+          text={content.button.label}
+          href={content.button.href}
+          textClass="capitalized"
+          extraBtnClass="flex bg-secondary border-secondary"
+          colorText="text-white" 
+        />
+    </div>
+    <div class='w-1/2 h-auto relative overflow-hidden rounded-2xl aspect-628/767 '>
+      <img src="/images/strategic.webp" alt="Strategic Construction" width="1248" height="1520" decoding="async" loading="lazy"/>
+    </div>
+  </div>
+</section>
