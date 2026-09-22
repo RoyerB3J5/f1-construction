@@ -16,13 +16,19 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
 <section
   class="w-full h-[100svh] md:h-[60vh] xl:h-[100vh] flex justify-center items-end overflow-hidden relative pt-(--header-height)"
 >
-  <img
-    src={`/images/hero.webp`}
-    alt="Hero image"
-    width="1920"
-    height="1080"
-    class="z-0 w-full h-full absolute inset-0 object-cover object-[50%_20%] 3xl:object-centerblock"
-  />
+  <video
+        class="w-full h-full object-cover object-center absolute inset-0 z-0"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        disablepictureinpicture
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <source src="/images/video.mp4" type="video/mp4" />
+      </video>
 
   <div
     class="container-full h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 md:py-8 xl:py-[1vw] 3xl:py-4 "
