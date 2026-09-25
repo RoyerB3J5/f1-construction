@@ -22,16 +22,17 @@ const lang = match ? match[1] : "en";
 ---
 
 <header
-  class={`fixed left-0 right-0 z-50 w-full flex flex-col justify-center items-center top-0 header-intro`}
+  class={`fixed left-0 right-0 z-50 w-full flex flex-col justify-center items-center top-0 header-intro bg-transparent`}
   id="site-header"
+  data-header
   style="transition: transform 0.3s ease-out, background-color 0.3s ease-out; will-change: transform;"
 >
   <div
-    class="bg-primary py-2.5 md:flex justify-center items-center gap-2 w-full hidden"
+    class="bg-primary py-2.5 flex justify-center items-center gap-2 w-full "
     
   >
     <p
-      class="text-[13px] font-medium leadong-[100%] text-white"
+      class="text-[14px] md:text-[13px] font-medium leadong-[100%] text-white"
       set:html={content?.description}
     />
   </div>
@@ -40,15 +41,15 @@ const lang = match ? match[1] : "en";
       <a
         href={`/${lang}`}
         aria-label="Ir a la página principal"
-        title="F1 Construction - Init"
+        title="Foundation One Construction"
       >
         <img
           src="/images/logo.svg"
-          alt="Logo de F1 Construction"
-          title="F1 Construction - Init"
+          alt="Logo de Foundation One Construction"
+          title="Foundation One Construction"
           width="194"
           height="32"
-          class="cursor-pointer w-[94px] md:w-[194px] h-auto"
+          class="cursor-pointer w-[194px] h-auto"
         />
       </a>
       <div
@@ -101,20 +102,9 @@ const lang = match ? match[1] : "en";
           class="flex xl:hidden items-center justify-center cursor-pointer w-10 h-10 rounded overflow-hidden"
           id="hamburger-btn"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            viewBox="0 0 40 40"
-            fill="none"
-          >
-            <rect x="0.5" y="0.5" width="39" height="39" rx="5.5" fill="#B52132"
-            ></rect>
-            <rect x="0.5" y="0.5" width="39" height="39" rx="5.5" stroke="black"
-            ></rect>
-            <path
-              d="M6 29V26H33V29H6ZM6 21.5V18.5H33V21.5H6ZM6 14V11H33V14H6Z"
-              fill="white"></path>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="6" fill="#EF670E"/>
+            <path d="M6 29V26H33V29H6ZM6 21.5V18.5H33V21.5H6ZM6 14V11H33V14H6Z" fill="white"/>
           </svg>
         </button>
       </div>
@@ -123,12 +113,12 @@ const lang = match ? match[1] : "en";
 </header>
 
 <div
-  class="fixed top-0 right-0 bottom-0 xl:hidden flex items-start bg-paragraph text-white flex-col justify-start h-full z-60 pb-12 px-4 pt-6 gap-6 transform translate-x-full transition-transform duration-300 ease-out w-full"
+  class="fixed top-0 right-0 bottom-0 xl:hidden flex items-start bg-white text-[#343D46] flex-col justify-start h-full z-60 pb-12 pt-6 gap-6 transform translate-x-full transition-transform duration-300 ease-out w-full"
   id="mobile-menu"
 >
   <div class="flex flex-col justify-center items-center gap-8 w-full">
     <X
-      class="block cursor-pointer z-20 w-6 h-6 text-white self-end"
+      class="block cursor-pointer z-20 w-6 h-6 text-paragraph self-end mr-4"
       id="close-btn"
       aria-label="Cerrar menú de navegación"
       title="Cerrar menú"
@@ -138,65 +128,58 @@ const lang = match ? match[1] : "en";
     <a
       href={`/${lang}`}
       aria-label="Ir a la página principal"
-      title="Philly Steak - Init"
+      title="Foundation One Construcction - Ir a la página principal"
     >
       <img
         src="/images/logo.svg"
-        alt="Logo de Orlando's Philly Steak "
+        alt="Logo de Foundation One Construcction"
         width="240"
         height="127"
-        class="cursor-pointer w-[150px] h-auto"
+        class="cursor-pointer w-[194px] h-auto"
       />
     </a>
     <nav class="w-full">
-      <ul
-        class="relative flex items-start flex-col justify-center w-full gap-6"
-      >
-        {
-          content?.nav.map((item, index) => {
-            const itemPathWithoutHash = item.href.split("#")[0];
-            const isActive = normalized === itemPathWithoutHash;
-            return (
-              <>
-                <li
-                  class={`flex flex-col items-start justify-start group gap-3.5 px-4 w-full text-start  ${isActive ? "bg-secondary text-white uppercase " : ""}`}
-                  id={`mobile-nav-item-${index}`}
-                >
-                  <a
-                    href={`/${lang}${item.href}`}
-                    class="relative transition-colors duration-300 flex justify-start items-center w-full py-6 gap-6"
-                    aria-expanded="false"
+          <ul class="relative flex items-start flex-col justify-center w-full gap-4">
+            {content?.nav.map((item, index) => {
+              const itemPathWithoutHash = item.href.split("#")[0];
+              const isActive = normalized === itemPathWithoutHash;
+              return (
+                <>
+                  <li
+                    class={`flex flex-col items-start justify-start group gap-3.5 px-4 w-full text-start  ${isActive ? "bg-primary text-white uppercase " : ""}`}
+                    id={`mobile-nav-item-${index}`}
                   >
-                    {isActive && (
-                      <div class={`w-1.5 h-1.5 bg-accent rotate-45  `} />
-                    )}
-                    <p
-                      class={`text-[20px] font-normal leading-[100%] tracking-[-0.5px] ${isActive ? "text-white uppercase font-rust" : "text-white font-paragraph"}`}
-                      set:html={item.label}
-                    />
-                  </a>
-                </li>
-              </>
-            );
-          })
-        }
-      </ul>
-    </nav>
+                    <a
+                      href={`/${lang}${item.href}`}
+                      class="relative transition-colors duration-300 flex justify-start items-center w-full py-6 gap-6"
+                      aria-expanded="false"
+                    >
+                      <p
+                        class={`text-[18px]  leading-[100%] tracking-[-0.5px] text-paragraph ${isActive ? "text-white font-bold " : " font-normal"}`}
+                        set:html={item.label}
+                      />
+                    </a>
+                  </li>
+                </>
+              );
+            })}
+          </ul>
+        </nav>
   </div>
-  <div class="flex flex-col justify-center items-center gap-4 w-full">
-    <Button
-      text={content?.buttons[1].label}
-      href={content?.buttons[1].href}
-      target="_blank"
-      textClass="uppercase text-paragraph"
-      extraBtnClass={`bg-white border-white w-full`}
-    />
+  <div class="flex flex-col justify-center items-center gap-4 w-full px-4">
     <Button
       text={content?.buttons[0].label}
       href={content?.buttons[0].href}
       target="_blank"
-      textClass="uppercase text-white"
+      textClass=" text-white"
       extraBtnClass={`bg-secondary border-secondary w-full`}
+    />
+    <Button
+      text={content?.buttons[1].label}
+      href={content?.buttons[1].href}
+      target="_blank"
+      textClass=" text-[#1E1E1E]"
+      extraBtnClass={`bg-transparent border-[#1E1E1E] w-full`}
     />
   </div>
 </div>
@@ -235,7 +218,7 @@ const lang = match ? match[1] : "en";
       });
     }
 
-    // Header: height var + hide on scroll down / show on scroll up
+    // Header: height var + bg-transparent -> bg-white on scroll + hide on scroll down / show on scroll up
     const header = document.getElementById("site-header");
 
     function updateHeaderHeight() {
@@ -255,14 +238,30 @@ const lang = match ? match[1] : "en";
     let lastScrollY = window.scrollY || document.documentElement.scrollTop;
     let ticking = false;
     const HIDE_AFTER = 80; // start hiding only after scrolling past this
+    const BG_AFTER = 10; // switch bg-transparent -> bg-white once scrolling begins
     const DELTA = 5; // ignore tiny jitter
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     const showHeader = () => {
       header.style.transform = "translateY(0)";
     };
 
     const hideHeader = () => {
+      if (reduceMotion) {
+        showHeader();
+        return;
+      }
       header.style.transform = "translateY(-100%)";
+    };
+
+    const updateHeaderBackground = (currentY) => {
+      const scrolled = currentY > BG_AFTER;
+      // Initially bg-transparent, switch to bg-white once scrolling begins
+      header.classList.toggle("bg-transparent", !scrolled);
+      header.classList.toggle("bg-white", scrolled);
+      header.classList.toggle("shadow-md", scrolled);
     };
 
     const isMenuOpen = () =>
@@ -271,6 +270,8 @@ const lang = match ? match[1] : "en";
     const onScroll = () => {
       const currentY = window.scrollY || document.documentElement.scrollTop;
       const diff = currentY - lastScrollY;
+
+      updateHeaderBackground(currentY);
 
       // Don't hide while mobile menu is open
       if (isMenuOpen()) {

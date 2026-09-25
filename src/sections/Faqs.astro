@@ -1,0 +1,94 @@
+---
+import Button from "../components/Button.astro";
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["main"]["faqs"];
+interface Props {
+  content: Content;
+}
+const { content } = Astro.props as Props;
+---
+<section class='container-full flex flex-col md:flex-row justify-between items-start py-16 md:py-20 gap-8 3xl:gap-13' id="faqs">
+  <div class="w-full md:w-1/2 flex flex-col justify-center item-start gap-6 text-primary">
+    <h2 class='subtitle'>FAQs</h2>
+    <div class="w-full flex flex-col justify-center items-center" data-faq-accordion>
+      {
+        content.map((item, index)=>{ 
+          const isOpen = index === 0;
+          const panelId = `faq-panel-${index}`;
+          const buttonId = `faq-button-${index}`;
+          return (
+          <div class="faq-item w-full flex flex-col justify-center items-start py-8 border-b border-[#E6E9EE] last:border-b-0" data-open={isOpen ? "true" : "false"}>
+            <button type="button" id={buttonId} aria-expanded={isOpen ? "true" : "false"} aria-controls={panelId} class='faq-toggle w-full flex justify-between items-center gap-4 text-left cursor-pointer'>
+              <h3 class="subtitle-sm ">{item.question}</h3>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" class='faq-icon w-[14px] h-[14px] shrink-0 transition-transform duration-300' aria-hidden="true">
+                <path d={isOpen ? "M0 6H14V8H0V6Z" : "M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z"} fill="#01204E"/>
+              </svg>
+            </button>
+            <div id={panelId} role="region" aria-labelledby={buttonId} inert={!isOpen} class:list={["faq-panel grid w-full transition-all duration-300 ease-in-out", isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"]}>
+              <div class="overflow-hidden">
+                <p class='paragraph w-[90%] pt-6'>{item.answer}</p>
+              </div>
+            </div>
+          </div>
+          );
+        })
+      }
+    </div>
+  </div>
+  <div class='w-1/2 relative overflow-hidden rounded-2xl aspect-628/942 hidden md:block'>
+    <img src='/images/faqs.webp' alt='Foundation One Construction FAQs' width="1248" height="848" decoding="async" loading="lazy" class='w-full h-full object-cover absolute inset-0' />
+  </div>
+</section>
+
+<script>
+  const PLUS_D: string = "M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z";
+  const MINUS_D: string = "M0 6H14V8H0V6Z";
+
+  function setItemState(item: HTMLElement, open: boolean): void {
+    const toggle = item.querySelector<HTMLButtonElement>(".faq-toggle");
+    const panel = item.querySelector<HTMLElement>(".faq-panel");
+    const iconPath = item.querySelector<SVGPathElement>(".faq-icon path");
+    if (!toggle || !panel || !iconPath) return;
+
+    item.dataset.open = open ? "true" : "false";
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    iconPath.setAttribute("d", open ? MINUS_D : PLUS_D);
+    panel.classList.toggle("grid-rows-[1fr]", open);
+    panel.classList.toggle("opacity-100", open);
+    panel.classList.toggle("grid-rows-[0fr]", !open);
+    panel.classList.toggle("opacity-0", !open);
+    if (open) {
+      panel.removeAttribute("inert");
+    } else {
+      panel.setAttribute("inert", "");
+    }
+  }
+
+  function initFaqAccordion(): void {
+    const accordions = document.querySelectorAll<HTMLElement>("[data-faq-accordion]");
+    accordions.forEach((accordion: HTMLElement) => {
+      if (accordion.dataset.initialized === "true") return;
+      accordion.dataset.initialized = "true";
+      const items: HTMLElement[] = Array.from(accordion.querySelectorAll<HTMLElement>(".faq-item"));
+      if (items.length === 0) return;
+
+      // Ensure exactly one item is open by default (first one).
+      const hasOpen: boolean = items.some((item: HTMLElement) => item.dataset.open === "true");
+      items.forEach((item: HTMLElement, index: number) => setItemState(item, hasOpen ? item.dataset.open === "true" : index === 0));
+
+      const toggles = accordion.querySelectorAll<HTMLButtonElement>(".faq-toggle");
+      toggles.forEach((toggle: HTMLButtonElement, index: number) => {
+        toggle.addEventListener("click", () => {
+          const currentItem: HTMLElement | undefined = items[index];
+          // Keep one item always open: clicking the open item does nothing.
+          if (!currentItem || currentItem.dataset.open === "true") return;
+          items.forEach((item: HTMLElement, itemIndex: number) => setItemState(item, itemIndex === index));
+        });
+      });
+    });
+  }
+
+  initFaqAccordion();
+  // Re-init after Astro view transitions / client-side navigation.
+  document.addEventListener("astro:after-swap", initFaqAccordion);
+</script>

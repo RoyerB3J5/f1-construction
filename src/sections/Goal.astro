@@ -7,7 +7,7 @@ interface Props {
 }
 const { content } = Astro.props as Props;
 ---
-<section class="container-full flex flex-col justify-center items-center py-25 gap-8">
+<section class="container-full flex flex-col justify-center items-center py-20 md:py-25 gap-8">
   <p class="text-[18px] font-medium leading-[100%] text-primary">{content.tag}</p>
   <h2 class="subtitle text-primary text-center" set:html={content.title}></h2>
 </section>

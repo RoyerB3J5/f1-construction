@@ -1,14 +1,4 @@
 ---
-import {
-  emailAddress,
-  facebookLink,
-
-  phoneNumber,
-  phoneNumberLink,
-} from "../constants/info";
-import { ChevronDown, ChevronRight, Menu, X, Plus, Minus } from "@lucide/astro";
-import Button from "./Button.astro";
-
 type Translations = typeof import("../i18n/en").default;
 type FooterContent = Translations["footer"];
 interface Props {
@@ -24,159 +14,26 @@ const normalized =
 // Detectar el idioma actual ('en' o 'es')
 const match = currentPath.match(/^\/(en|es)/);
 const lang = match ? match[1] : "en";
-const socialMedia = [
-  {
-    icon: "facebook",
-    href: facebookLink,
-  }
-];
 ---
 
 <footer class="flex flex-col justify-center items-center w-full">
-  <div class="bg-primary w-full flex justify-center items-center">
-    <div
-      class="container-full flex flex-col justify-center items-center py-16 md:py-20 gap-18 md:gap-17"
-    >
-      <div
-        class="w-full flex flex-col md:flex-row jusitfy-center md:justify-start items-center md:items-stretch gap-4 md:gap-3 lg:gap-6"
+  <div class='w-full flex flex-col justify-center items-center gap-4 py-18 bg-primary text-white'>
+    <a
+        href={`/${lang}`}
+        aria-label="Ir a la página principal"
+        title="Foundation One Construction"
       >
-        <a
-          href={`/${lang}`}
-          aria-label="Ir a la página principal"
-          title="Philly Steak - Init"
-          class="block"
-        >
-          <img
-            src="/images/logo.svg"
-            alt="Logo de Orlando's Philly Steak "
-            width="240"
-            height="127"
-            class="cursor-pointer w-[250px] md:w-[180px] lg:not-last-of-type:w-[250px] h-auto"
-          />
-        </a>
-        <div class="w-[1px] bg-white/10 hidden md:block"></div>
-        <div
-          class="md:flex-1 flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 md:gap-3 lg:gap-6"
-        >
-          <div
-            class="flex flex-col justify-center items-center md:items-start gap-[5px] text-white"
-          >
-            <h3 class="subtitle text-center md:text-start">
-              {content?.section1.title}
-            </h3>
-            <p
-              class="text-[16px] font-paragraph text-[#BDBDBD] leading-[175%] font-normal max-w-[765px]"
-            >
-              {content?.section1.description}
-            </p>
-          </div>
-          <div
-            class="flex flex-row md:flex-col justify-center items-center gap-4"
-          >
-            <Button
-              text={content?.section1.buttons[0].label}
-              href={content?.section1.buttons[0].href}
-              textClass="uppercase"
-              extraBtnClass="bg-secondary border-secondary"
-            />
-            <Button
-              text={content?.section1.buttons[1].label}
-              href={content?.section1.buttons[1].href}
-              textClass=" uppercase"
-              colorText="text-white"
-              extraBtnClass="bg-transparent border-white"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="hidden md:block w-full h-[1px] bg-white/10"></div>
-      <div
-        class="w-full flex flex-col md:flex-row justify-center md:justify-between items-start gap-[51px] md:gap-3 lg:gap-6"
-      >
-        <div
-          class="w-full flex flex-col jutify-center items-start gap-6 max-w-[678px]"
-        >
-          <h3 class="subtitle-sm text-white">
-            {content?.section2.about.title}
-          </h3>
-          <div class="w-25 h-0.75 bg-secondary"></div>
-          <p
-            class="text-[16px] font-paragraph text-[#F2F2F2] leading-[175%] font-normal max-w-[765px]"
-            set:html={content?.section2.about.description}
-          />
-          <div class="flex justify-start items-center gap-2 w-full">
-            {
-              socialMedia.map((item) => (
-                <a
-                  href={item.href}
-                  class="w-10 h-10 border border-[#F2F2F2] rounded-full flex justify-center items-center hover:bg-secondary hover:border-secondary transition-all duration-300 ease-in-out"
-                >
-                  <img
-                    src={`/icons/${item.icon}.svg`}
-                    width="24"
-                    height="24"
-                    class="w-auto h-4.5"
-                    decoding="async"
-                    loading="lazy"
-                    alt={item.icon}
-                  />
-                </a>
-              ))
-            }
-          </div>
-        </div>
-        <div class="flex flex-col justify-center items-start gap-6">
-          <h3 class="subtitle-sm text-white whitespace-nowrap">
-            {content?.section2.quickLinks.title}
-          </h3>
-          <div class="w-25 h-0.75 bg-secondary"></div>
-          <div class="flex flex-col justify-center items-start gap-6">
-            {
-              content?.section2.quickLinks.links.map((link) => (
-                <a
-                  href={`/${lang}${link.href}`}
-                  class="text-[16px] font-paragraph text-[#F2F2F2] leading-[21px] font-normal hover:text-secondary transition-all duration-300 ease-in-out flex justify-start itmes-center gap-[5px]"
-                >
-                  <p>{">"}</p>
-                  <p>{link.label}</p>
-                </a>
-              ))
-            }
-          </div>
-        </div>
-        <div class="flex flex-col justify-center items-start gap-6">
-          <h3 class="subtitle-sm text-white whitespace-nowrap">
-            {content?.section2.contact.title}
-          </h3>
-          <div class="w-25 h-0.75 bg-secondary"></div>
-          <div class="flex flex-col justify-center items-start gap-6">
-            {
-              content?.section2.contact.items.map((link) => (
-                <div class="flex justify-start items-center gap-4">
-                  <div class="flex justify-center items-center w-10 h-10 bg-secondary rounded-full">
-                    <img
-                      src={`/icons/${link.icon}.svg`}
-                      alt={link.icon}
-                      width="24"
-                      height="24"
-                      class="w-[19.2px] h-[19.2px]"
-                      decoding="async"
-                      loading="lazy"
-                    />
-                  </div>
-                  <a
-                    href={`/${lang}${link.href}`}
-                    class="text-[16px] font-paragraph text-[#F2F2F2] leading-[21px] font-normal hover:text-secondary transition-all duration-300 ease-in-out max-w-[209px]"
-                  >
-                    <p>{link.label}</p>
-                  </a>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-    </div>
+        <img
+          src="/images/logo-white.svg"
+          alt="Logo de Foundation One Construction"
+          title="Foundation One Construction"
+          width="152"
+          height="25"
+          class="cursor-pointer w-[152px] h-auto"
+        />
+      </a>
+      <p class="text-[12px] font-normal leading-[162%]">{content?.description}</p>
+      <p class="text-[12px] font-normal leading-[162%]">{content?.copy}</p>
   </div>
   <div
     class="bg-[#E5E5E5] w-full py-3.5 lg:py-4.5 flex justify-center items-center px-5 xl:px-0"
@@ -186,7 +43,7 @@ const socialMedia = [
     >
       <a href="https://inkshapegroup.com/en/">
         <img
-          src="/icons/inkshape.svg"
+          src="/images/inkshape.svg"
           alt=" Logo de Inkshape Group"
           width="208"
           height="40"
@@ -198,9 +55,9 @@ const socialMedia = [
       >
         Copyright © 2026 by <a href="https://inkshapegroup.com"
           >Inkshape Group</a
-        > | Privacy | <a href="/"> Orlando's Philly Steak </a> | Florida, USA | Call
-        Now: <a href={phoneNumberLink}>{phoneNumber}</a>
+        > | Privacy | <a href="/">F1 Construction</a> | Orlando, USA
       </p>
     </div>
   </div>
 </footer>
+

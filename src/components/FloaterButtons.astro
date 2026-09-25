@@ -1,0 +1,59 @@
+---
+import Button from "../components/Button.astro";
+
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["header"]["buttons"];
+interface Props {
+  content?: Content;
+}
+const { content } = Astro.props as Props;
+---
+
+<section
+  id="floater-buttons"
+  class="bg-white flex justify-center items-center p-4 gap-4 fixed bottom-0 left-0 right-0 z-40 md:hidden w-full shadow-floater translate-y-full transition-transform duration-300 ease-out will-change-transform"
+>
+  <Button
+    text={content?.[0].label}
+    href={content?.[0].href}
+    textClass="text-white"
+    extraBtnClass="bg-secondary border-secondary "
+    width="w-full"
+  />
+  <Button
+    text={content?.[1].label}
+    href={content?.[1].href}
+    textClass=" text-white"
+    extraBtnClass="bg-primary border-primary"
+    width="w-full"
+  />
+</section>
+
+<script is:inline>
+  (() => {
+    const floater = document.getElementById("floater-buttons");
+    if (!floater) return;
+
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      // Show once the user has scrolled past the initial viewport (~hero).
+      const pastViewport = window.scrollY > window.innerHeight * 0.15;
+      floater.classList.toggle("translate-y-full", !pastViewport);
+      floater.classList.toggle("translate-y-0", pastViewport);
+      floater.setAttribute("aria-hidden", String(!pastViewport));
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  })();
+</script>

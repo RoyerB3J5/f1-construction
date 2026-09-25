@@ -31,20 +31,22 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
       </video>
 
   <div
-    class="container-full h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 md:py-8 xl:py-[1vw] 3xl:py-4 "
+    class="container-full h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 xl:py-[1vw] 3xl:py-4 "
   >
     <div
       class="flex flex-col justify-center items-center gap-5 w-full"
     >
-      <h1 class='title text-primary capitalize'>{content.title}</h1>
+      <h1 class='title text-primary capitalize text-center'>{content.title}</h1>
       <p class="paragraph text-primary text-center" set:html={content.description}></p>
-      <div class='flex justify-center items-center gap-4'>
+      <div class='flex justify-center items-center gap-4 w-full'>
         <Button
           text={content.buttons[0].label}
           href={content.buttons[0].href}
           textClass="capitalized"
           extraBtnClass="flex bg-secondary border-secondary"
-          colorText="text-white" 
+          colorText="text-white"
+          width="w-full md:w-[204px]" 
+          
         />
         <Button
           text={content.buttons[1].label}
@@ -52,6 +54,7 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
           textClass="capitalized"
           colorText="text-primary"
           extraBtnClass="flex bg-white border-white"
+          width="w-full md:w-[204px]"
         />
       </div>
     </div>

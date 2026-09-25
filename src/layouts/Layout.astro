@@ -4,6 +4,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Chatbot from "../components/Chatbot.astro";
 import SEOHead from "../components/SEOHead.astro";
+import FloaterButtons from "../components/FloaterButtons.astro";
 
 type Translations = typeof import("../i18n/en").default;
 
@@ -51,22 +52,70 @@ const {
   </head>
 
   <body
-    class="font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center w-full"
+    class="font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center w-full scroll-smooth"
   >
     <Header content={t?.header} />
     <main class="flex flex-col w-full items-center ">
       <slot />
     </main>
-    
-    {
-      /*
-      <Footer content={t?.footer} />
-    <Chatbot /> */
-    }
+    <Footer content={t?.footer} />
+    <Chatbot />
+    <FloaterButtons
+      content={t?.header.buttons}
+    />
   </body>
 </html>
 
 <script>
+  function initSmoothAnchors() {
+    // Avoid double-binding when Astro re-runs init on view transitions
+    if ((document.documentElement as HTMLElement).dataset.smoothAnchorsInit === "true") return;
+    (document.documentElement as HTMLElement).dataset.smoothAnchorsInit = "true";
+
+    const scrollToTarget = (target: HTMLElement): void => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // Make sure the hiding header doesn't cover the landing spot
+      const header = document.getElementById("site-header");
+      if (header) header.style.transform = "translateY(0)";
+      // Native smooth scroll honors CSS scroll-margin-top on section[id],
+      // so we don't subtract the header height here. Doing both would
+      // double the offset and leave a big empty gap above the section.
+      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      // Move focus for keyboard / screen-reader users without triggering another scroll
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    };
+
+    const isSamePageHashLink = (anchor: HTMLAnchorElement): boolean => {
+      if (!anchor.hash || anchor.hash === "#") return false;
+      if (anchor.origin !== window.location.origin) return false;
+      // Same document: same path (ignoring trailing slash) — hash links like `/en#contact` count
+      const linkPath = anchor.pathname.replace(/\/$/, "") || "/";
+      const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+      return linkPath === currentPath;
+    };
+
+    document.addEventListener("click", (event) => {
+      const anchor = (event.target as HTMLElement).closest?.("a[href*='#']") as HTMLAnchorElement | null;
+      if (!anchor || !isSamePageHashLink(anchor)) return;
+      const target = document.getElementById(decodeURIComponent(anchor.hash.slice(1)));
+      if (!target) return;
+      event.preventDefault();
+      scrollToTarget(target);
+      history.replaceState(null, "", anchor.hash);
+    });
+
+    // Handle direct loads with a hash (e.g. /en#contact) after layout settles
+    const scrollToInitialHash = (): void => {
+      if (!window.location.hash || window.location.hash === "#") return;
+      const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+      if (!target) return;
+      // Let fonts/images/layout settle so the offset is accurate
+      requestAnimationFrame(() => setTimeout(() => scrollToTarget(target), 50));
+    };
+    scrollToInitialHash();
+  }
+
   function initGlobalInteractions() {
     // -------------------------------------------------------------
     // 1. ANIMACIONES DE SCROLL (IntersectionObserver)
@@ -99,11 +148,18 @@ const {
 
   // Ejecución en la carga inicial del documento
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initGlobalInteractions);
+    document.addEventListener("DOMContentLoaded", () => {
+      initSmoothAnchors();
+      initGlobalInteractions();
+    });
   } else {
+    initSmoothAnchors();
     initGlobalInteractions();
   }
 
   // Soporte para Astro View Transitions (por si usas transiciones de página en el futuro)
-  document.addEventListener("astro:page-load", initGlobalInteractions);
+  document.addEventListener("astro:page-load", () => {
+    initSmoothAnchors();
+    initGlobalInteractions();
+  });
 </script>

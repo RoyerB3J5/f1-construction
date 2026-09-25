@@ -1,0 +1,44 @@
+---
+import Button from "../components/Button.astro";
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["main"]["steps"];
+interface Props {
+  content: Content;
+}
+const { content } = Astro.props as Props;
+---
+<section class="w-full flex justify-center items-center bg-primary" id="about">
+  <div class="max-w-[1200px] w-full px-4 xl:px-0 flex flex-col justify-center items-center py-16 md:py-20  text-white">
+    <div class='flex flex-col justify-center items-center gap-8 mb-8 md:mb-14'>
+      <h2 class='subtitle text-start md:text-center'>{content.title}</h2>
+      <p set:html={content.description} class="paragraph text-start md:text-center"></p>
+    </div>
+    <div class='grid grid-cols-1 md:grid-cols-4 jsutify-center items-start gap-10 md:gap-6 w-full md:mb-10'>
+      {
+        content.items.map((item,index)=>( 
+          <div class='flex flex-row md:flex-col justify-center items-center gap-6 md:ap-8'>
+            <div class="flex justify-center items-center border-4 border-secondary rounded-2xl w-[54px] h-[54px] shrink-0 ">
+              <p class="text-[24px] font-bold leading-[140%] ">{index+1}</p>
+            </div>
+            <div class="flex flex-col justify-center items-start md:items-center gap-6">
+              <h3 class='subtitle-sm text-center'>{item.title}</h3>
+              <p class='paragraph  text-start md:text-center'>{item.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="md:flex justify-center items-center gap-[11px] mt-2 max-w-[80%] xl:max-w-none hidden ">
+      {
+        Array.from({length:4}).map((_)=>( 
+          <>
+            <img src="/images/rounded-circle.svg" alt="Rounded Circle" width="16" height="16" class='w-4 h-4'/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="272" height="1" viewBox="0 0 272 1" fill="none" class='w-full h-[1px] last:hidden'>
+              <path opacity="0.4" d="M0.5 0.5H271.5" stroke="white" stroke-linecap="round" stroke-dasharray="6 8"/>
+            </svg>
+          </>
+        ))
+      }
+    </div>
+  </div>
+</section>

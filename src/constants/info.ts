@@ -1,7 +1,7 @@
-export const phoneNumber = "(786) 781-3547";
-export const phoneNumberLink = "tel:7867813547";
+export const phoneNumber = "(XXX) XXX-XXXX";
+export const phoneNumberLink = "#";
 
-export const emailAddress = "perlarosatimakeup@gmail.com";
+export const emailAddress = "#";
 
-export const instagramLink = "https://www.instagram.com/perlarosatimakeup/";
-export const facebookLink = "https://www.facebook.com/perlarosatimakeup/";
+export const instagramLink = "#";
+export const facebookLink = "#";
