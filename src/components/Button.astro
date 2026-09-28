@@ -24,7 +24,7 @@ interface Props {
 
 const {
   text = "",
-  baseBtnClass = "flex justify-center items-center cursor-pointer transition-all duration-300 ease-in-out z-[10]  h-12 hover:-translate-y-1 border rounded-[8px] gap-2.5 box-container ",
+  baseBtnClass = "flex justify-center items-center cursor-pointer transition-all duration-300 ease-in-out z-[10]  h-12 hover:scale-103 border rounded-[8px] gap-2.5 box-container ",
   extraBtnClass = "",
   baseTextClass = "text-[16px] font-semibold  leading-[150%] text-center",
   textClass = "",
@@ -47,6 +47,8 @@ const normalizedHref =
 const buttonClasses =
   `${baseBtnClass} ${icon ? "gap-[10px]" : ""} ${extraBtnClass} ${colorText} ${width}`.trim();
 const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
+const rollRowClass =
+  "flex items-center gap-2.5 transition-transform duration-200 ease-out group-hover:-translate-y-[calc(100%+0.5rem)] motion-reduce:transition-none motion-reduce:transform-none";
 ---
 
 {
@@ -57,12 +59,32 @@ const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
       target={target}
       rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
     >
-      {text ? <p class={paragraphClasses}>{text}</p> : <slot />}
+      <span class="relative overflow-clip [overflow-clip-margin:1px]">
+        <span class={rollRowClass}>
+          {text ? <p class={paragraphClasses}>{text}</p> : <slot />}
+        </span>
+        <span
+          aria-hidden="true"
+          class={`${rollRowClass} absolute inset-x-0 top-full mt-2`}
+        >
+          {text ? <p class={paragraphClasses}>{text}</p> : <slot />}
+        </span>
+      </span>
       
     </a>
   ) : (
     <button type="button" class={buttonClasses}>
-      {text ? <p class={paragraphClasses}>{text}</p> : <slot />}
+      <span class="relative overflow-clip [overflow-clip-margin:1px]">
+        <span class={rollRowClass}>
+          {text ? <p class={paragraphClasses}>{text}</p> : <slot />}
+        </span>
+        <span
+          aria-hidden="true"
+          class={`${rollRowClass} absolute inset-x-0 top-full mt-2`}
+        >
+          {text ? <p class={paragraphClasses}>{text}</p> : <slot />}
+        </span>
+      </span>
       
     </button>
   )

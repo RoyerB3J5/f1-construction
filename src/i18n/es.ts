@@ -16,7 +16,7 @@ export default {
         href: "#about",
       },
       {
-        label: "Preguntas frecuentes",
+        label: "Preguntas ",
         href: "#faqs",
       },
     ],

@@ -218,6 +218,90 @@ section[id] {
   animation: fadeRight 0.6s ease-in-out forwards;
 }
 
+@keyframes stepsProgressReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.steps-progress-item {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+
+.steps-progress.active .steps-progress-item {
+  animation: stepsProgressReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1)
+    var(--progress-delay) forwards;
+}
+
+@keyframes revealRight {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 0 100% round 1rem);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 1rem);
+  }
+}
+
+.reveal-right-a {
+  overflow: hidden;
+}
+
+.reveal-right-a > img {
+  opacity: 0;
+  clip-path: inset(0 0 0 100% round 1rem);
+  will-change: clip-path;
+}
+
+.reveal-right-a.active > img {
+  animation: revealRight 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes revealLeft {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0 round 1rem);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 1rem);
+  }
+}
+
+.reveal-left-a > img {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0 round 1rem);
+  will-change: clip-path;
+}
+
+.reveal-left-a.active > img {
+  animation: revealLeft 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-right-a > img {
+    opacity: 1;
+    clip-path: none;
+  }
+  .reveal-right-a.active > img {
+    animation: none;
+  }
+  .reveal-left-a > img {
+    opacity: 1;
+    clip-path: none;
+  }
+  .reveal-left-a.active > img {
+    animation: none;
+  }
+}
+
 .header-intro {
   animation: fadeDown 0.5s ease-in-out;
 }

@@ -9,8 +9,8 @@ const { content } = Astro.props as Props;
 ---
 <section class='container-full flex flex-col md:flex-row justify-between items-start py-16 md:py-20 gap-8 3xl:gap-13' id="faqs">
   <div class="w-full md:w-1/2 flex flex-col justify-center item-start gap-6 text-primary">
-    <h2 class='subtitle'>FAQs</h2>
-    <div class="w-full flex flex-col justify-center items-center" data-faq-accordion>
+    <h2 class='subtitle fade-up-a'>FAQs</h2>
+    <div class="w-full flex flex-col justify-center items-center fade-up-a" data-faq-accordion>
       {
         content.map((item, index)=>{ 
           const isOpen = index === 0;
@@ -35,7 +35,7 @@ const { content } = Astro.props as Props;
       }
     </div>
   </div>
-  <div class='w-1/2 relative overflow-hidden rounded-2xl aspect-628/942 hidden md:block'>
+  <div class='w-1/2 relative overflow-hidden rounded-2xl aspect-628/942 hidden md:block reveal-right-a'>
     <img src='/images/faqs.webp' alt='Foundation One Construction FAQs' width="1248" height="848" decoding="async" loading="lazy" class='w-full h-full object-cover absolute inset-0' />
   </div>
 </section>

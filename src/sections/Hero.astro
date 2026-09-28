@@ -36,9 +36,17 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
     <div
       class="flex flex-col justify-center items-center gap-5 w-full"
     >
-      <h1 class='title text-primary capitalize text-center'>{content.title}</h1>
-      <p class="paragraph text-primary text-center" set:html={content.description}></p>
-      <div class='flex justify-center items-center gap-4 w-full'>
+      <h1 class='title text-primary capitalize text-center fade-up-a'>{content.title}</h1>
+      <p class="paragraph text-primary text-center fade-up-a" style="animation-delay: 0.2s;" set:html={content.description}></p>
+      <div
+        class="w-full fade-up-a motion-reduce:animate-none motion-reduce:opacity-100"
+        style="animation-delay: 0.4s;"
+      >
+        <div
+          id="hero-buttons"
+          class="flex justify-center items-center gap-4 w-full transition-all duration-300 ease-out will-change-transform motion-reduce:transition-none"
+          style="transform: translateY(0); opacity: 1;"
+        >
         <Button
           text={content.buttons[0].label}
           href={content.buttons[0].href}
@@ -56,6 +64,7 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
           extraBtnClass="flex bg-white border-white"
           width="w-full md:w-[204px]"
         />
+      </div>
       </div>
     </div>
   </div>

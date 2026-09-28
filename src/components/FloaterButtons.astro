@@ -33,16 +33,31 @@ const { content } = Astro.props as Props;
   (() => {
     const floater = document.getElementById("floater-buttons");
     if (!floater) return;
+    // Hero buttons (top) — driven in the same frame as the floater (bottom)
+    // so the top div disappears top->bottom exactly when the bottom div appears.
+    const heroButtons = document.getElementById("hero-buttons");
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
 
     let ticking = false;
 
     const update = () => {
       ticking = false;
       // Show once the user has scrolled past the initial viewport (~hero).
-      const pastViewport = window.scrollY > window.innerHeight * 0.15;
+      const pastViewport = window.scrollY > window.innerHeight * 0.1;
       floater.classList.toggle("translate-y-full", !pastViewport);
       floater.classList.toggle("translate-y-0", pastViewport);
       floater.setAttribute("aria-hidden", String(!pastViewport));
+
+      if (heroButtons) {
+        // Only hide the hero buttons on mobile, where the floater exists (md:hidden).
+        const hideHero = pastViewport && mobileQuery.matches;
+        // Positive Y = slides downwards (top -> bottom), fading out while
+        // the floater slides up — reads as the buttons moving to the bottom.
+        heroButtons.style.transform = hideHero ? "translateY(3rem)" : "translateY(0)";
+        heroButtons.style.opacity = hideHero ? "0" : "1";
+        heroButtons.style.pointerEvents = hideHero ? "none" : "";
+        heroButtons.setAttribute("aria-hidden", String(hideHero));
+      }
     };
 
     const onScroll = () => {
@@ -55,5 +70,6 @@ const { content } = Astro.props as Props;
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
+    if (mobileQuery.addEventListener) mobileQuery.addEventListener("change", onScroll);
   })();
 </script>
