@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /bio/
+Disallow: /connect/
+Disallow: /review/
+
+Sitemap: https://foundationoneconstruction.com/sitemap.xml

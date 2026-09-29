@@ -5,14 +5,6 @@ import LayoutSec from "../../layouts/LayoutSec.astro";
 import SaveContact from "../../components/SaveContact.astro";
 const content = [
   {
-    title: "Instagram",
-    link: "#",
-  },
-  {
-    title: "Facebook",
-    link: "#",
-  },
-  {
     title: "Website",
     link: "/",
   },
@@ -95,12 +87,6 @@ const content = [
         Save Contact
       </button>
     </div>
-    <div
-      class="w-59 flex flex-col justify-center items-center gap-12 py-8.5 rounded-[15px] bg-primary/10 mt-4"
-    >
-      <QRCard url={"/images/bio.png"} label="Scan me for more info" />
-      <QRCard url={"/images/review.png"} label="Give me a review" />
-    </div>
     <div class="flex flex-col justify-center items-center gap-2.25 mt-10">
       <p class="text-[14px] font-normal leading-[140%] text-paragraph">
         Powered by
@@ -148,13 +134,18 @@ const content = [
           class="flex justify-center items-center gap-5 text-[16px] font-medium"
         >
           <p class="font-bold text-[22px]">@</p>
-          <a href="#">#</a>
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=foundationoneconstruction@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            >foundationoneconstruction@gmail.com</a
+          >
         </div>
         <div
           class="flex justify-center items-center gap-5 text-[16px] font-medium"
         >
           <img src="/images/phone-3.svg" alt="Telefono" class="w-6 h-6" />
-          <a href="#">#</a>
+          <a href="tel:+14078375573">+1 (407) 837-5573</a>
         </div>
         <div
           class="flex justify-center items-center gap-5 text-[16px] font-medium"
@@ -166,7 +157,7 @@ const content = [
           class="flex justify-center items-center gap-5 text-[16px] font-medium"
         >
           <img src="/images/web.svg" alt="Website" class="w-6 h-6" />
-          <a href="#">#</a>
+          <a href="https://foundationoneconstruction.com">foundationoneconstruction.com</a>
         </div>
         <SaveContact />
       </div>

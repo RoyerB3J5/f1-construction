@@ -12,7 +12,11 @@ const { content, changeColor } = Astro.props as Props;
 const pathname = Astro.url.pathname;
 const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
 ---
-
+<link
+  rel="preconnect"
+  href="https://pub-88fff4d07e01428fa7f0a649bb5b8fc4.r2.dev"
+  crossorigin="anonymous"
+/>
 <section
   class="w-full h-[100svh] md:h-[60vh] xl:h-[100vh] flex justify-center items-end overflow-hidden relative pt-(--header-height)"
 >
@@ -22,12 +26,13 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
         muted
         loop
         playsinline
-        preload="auto"
+        preload="metadata"
+        poster="/images/hero.webp"
         disablepictureinpicture
         aria-hidden="true"
         tabindex="-1"
       >
-        <source src="/images/video.mp4" type="video/mp4" />
+        <source src="https://pub-88fff4d07e01428fa7f0a649bb5b8fc4.r2.dev/video.mp4" type="video/mp4" />
       </video>
 
   <div

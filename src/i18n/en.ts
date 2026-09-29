@@ -27,7 +27,7 @@ export default {
       },
       {
         label: "Call Us",
-        href: "#",
+        href: "tel:+14078375573",
       },
     ],
   },
@@ -43,7 +43,7 @@ export default {
         },
         {
           label: "Call Us",
-          href: "#",
+          href: "tel:+14078375573",
         },
       ],
     },
@@ -196,10 +196,12 @@ export default {
   },
   seo: {
     main: {
-      title: "F1 Construction",
+      title:
+        "HOA Restoration in Central Florida | Foundation One Construction",
       description:
-        "F1 Construction is a leading construction company providing high-quality building services in the heart of Orlando.",
-      keywords: "construction, restoration, capital improvement, Orlando",
+        "Strategic restoration and capital improvement partner for HOA boards, condos and property owners in Central Florida. Request a project consultation.",
+      keywords:
+        "HOA restoration Central Florida, condominium restoration, capital improvement contractor, exterior restoration, roofing and waterproofing, concrete and structural repair, balcony restoration, painting and coatings, building envelope improvements, Orlando general contractor",
     },
   },
 };

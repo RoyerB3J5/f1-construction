@@ -1,13 +1,11 @@
 ---
+import { emailLink, facebookLink } from "../constants/info";
 // Contact details not available yet — "#" placeholders until real links exist.
 const icons = [
   {
     name: "mail-white",
-    href: "#",
-  },
-  {
-    name: "facebook",
-    href: "#",
+    href: emailLink,
+    target: "_blank",
   },
 ];
 ---
@@ -17,6 +15,8 @@ const icons = [
     icons.map((i) => (
       <a
         href={i.href}
+        target={i.target}
+        rel={i.target === "_blank" ? "noopener noreferrer" : undefined}
         class="p-2 rounded-full flex items-center justify-center bg-secondary shrink-0"
       >
         <img src={`/images/${i.name}.svg`} alt={i.name} class="w-4 h-4" />

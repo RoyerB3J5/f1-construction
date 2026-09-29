@@ -35,8 +35,8 @@ export default function FormReview() {
     <div
       style={{
         position: "relative",
-        width: "370px",
-        height: "580px", // Altura específica basada en data-height
+        width: "350px",
+        height: "650px", // Altura específica basada en data-height
         padding: 0,
         overflow: "hidden",
         // Oculta cualquier contenido que se desborde
@@ -56,7 +56,7 @@ export default function FormReview() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "#d3ae6a",
+            background: "transparent",
             overflow: "hidden",
           }}
         >
@@ -64,14 +64,14 @@ export default function FormReview() {
         </div>
       )}
       <iframe
-        id="inline-VSiYI4kYJHQpXvmup04E"
-        src="https://link.inkshapecrm.com/widget/form/VSiYI4kYJHQpXvmup04E"
+        id="inline-aS4OqARvvuNzaVwESQ23"
+        src="https://link.inkshapecrm.com/widget/form/aS4OqARvvuNzaVwESQ23"
         title="Form Reviews"
         loading="lazy"
         onLoad={() => setLoaded(true)}
         style={{
           width: "100%",
-          height: "580px",
+          height: "650px",
           border: "none",
           borderRadius: 3,
           background: "transparent",
@@ -85,8 +85,8 @@ export default function FormReview() {
         data-deactivation-type="neverDeactivate"
         data-form-name="Form Reviews"
         data-height="510"
-        data-layout-iframe-id="inline-VSiYI4kYJHQpXvmup04E"
-        data-form-id="VSiYI4kYJHQpXvmup04E"
+        data-layout-iframe-id="inline-aS4OqARvvuNzaVwESQ23"
+        data-form-id="aS4OqARvvuNzaVwESQ23"
       />
     </div>
   );

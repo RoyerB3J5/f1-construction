@@ -1,7 +1,7 @@
 <div style={{
         position: "relative",
         width: "100%",
-        height: "650px", // Altura específica basada en data-height
+        height: "100%", // Altura específica basada en data-height
         padding: 0,
         overflow: "hidden",
         // Oculta cualquier contenido que se desborde
@@ -35,7 +35,7 @@
     class="w-full border-none relative z-40 "
     style={{
           width: "100%",
-          height: "800px",
+          height: "100%",
           border: "none",
           background: "transparent",
           padding: 0,
@@ -54,8 +54,10 @@
     data-layout-iframe-id="inline-QbaHf9FlNtER40rLKQ9k"
     data-form-id="QbaHf9FlNtER40rLKQ9k"
     title="Form General Website"
+    loading="lazy"
+    fetchpriority="low"
     onload={`document.getElementById('spinner')?.style.setProperty('display','none');`}
   >
   </iframe>
-  <script src="https://link.inkshapecrm.com/js/form_embed.js"></script>
+  <script src="https://link.inkshapecrm.com/js/form_embed.js" defer></script>
 </div>

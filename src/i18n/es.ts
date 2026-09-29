@@ -27,7 +27,7 @@ export default {
       },
       {
         label: "Llámanos",
-        href: "#",
+        href: "tel:+14078375573",
       },
     ],
   },
@@ -43,7 +43,7 @@ export default {
         },
         {
           label: "Llámanos",
-          href: "#",
+          href: "tel:+14078375573",
         },
       ],
     },
@@ -197,11 +197,11 @@ export default {
   seo: {
     main: {
       title:
-        "F1 Construction | Restauración y mejoras de capital en Florida Central",
+        "Restauración HOA en Florida Central | Foundation One Construction",
       description:
-        "Foundation One Construction colabora con juntas de HOA y propietarios para ofrecer restauración y mejoras de capital que preservan el valor en Florida Central.",
+        "Socio estratégico en restauración y mejoras de capital para juntas HOA, condominios y propietarios en Florida Central. Solicita una consulta de proyecto.",
       keywords:
-        "construcción, restauración, mejora de capital, HOA, condominios, Florida Central",
+        "restauración HOA Florida Central, restauración de condominios, mejoras de capital, contratista Orlando, restauración de exteriores, techos e impermeabilización, reparación de concreto y estructural, restauración de balcones, pintura y recubrimientos, envolvente del edificio",
     },
   },
 };
