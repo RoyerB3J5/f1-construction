@@ -320,3 +320,12 @@ section[id] {
     max-width: 1280px;
   }
 }
+
+.shadow-floater {
+  box-shadow:
+    0 -90px 25px 0 rgba(0, 0, 0, 0),
+    0 -57px 23px 0 rgba(0, 0, 0, 0.01),
+    0 -32px 19px 0 rgba(0, 0, 0, 0.05),
+    0 -14px 14px 0 rgba(0, 0, 0, 0.09),
+    0 -4px 8px 0 rgba(0, 0, 0, 0.1);
+}

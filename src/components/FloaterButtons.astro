@@ -11,7 +11,7 @@ const { content } = Astro.props as Props;
 
 <section
   id="floater-buttons"
-  class="bg-white flex justify-center items-center p-4 gap-4 fixed bottom-0 left-0 right-0 z-40 md:hidden w-full shadow-floater translate-y-full transition-transform duration-300 ease-out will-change-transform"
+  class="bg-white flex justify-center items-center p-4 gap-4 fixed bottom-0 left-0 right-0 z-40 md:hidden w-full shadow-floater translate-y-full opacity-0 pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none"
 >
   <Button
     text={content?.[0].label}
@@ -46,6 +46,9 @@ const { content } = Astro.props as Props;
       const pastViewport = window.scrollY > window.innerHeight * 0.1;
       floater.classList.toggle("translate-y-full", !pastViewport);
       floater.classList.toggle("translate-y-0", pastViewport);
+      floater.classList.toggle("opacity-0", !pastViewport);
+      floater.classList.toggle("opacity-100", pastViewport);
+      floater.classList.toggle("pointer-events-none", !pastViewport);
       floater.setAttribute("aria-hidden", String(!pastViewport));
 
       if (heroButtons) {
