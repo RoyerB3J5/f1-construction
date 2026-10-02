@@ -36,21 +36,21 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
       </video>
 
   <div
-    class="container-full h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 xl:py-[1vw] 3xl:py-4 "
+    class="w-full max-w-[1280px] h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 xl:py-[1vw] 3xl:py-4 "
   >
     <div
       class="flex flex-col justify-center items-center gap-5 w-full"
     >
-      <h1 class='title text-primary capitalize text-center fade-up-a'>{content.title}</h1>
-      <p class="paragraph text-primary text-center fade-up-a" style="animation-delay: 0.2s;" set:html={content.description}></p>
+      <h1 class='title text-primary capitalize text-center fade-up-a px-4 xl:px-0'>{content.title}</h1>
+      <p class="paragraph text-primary text-center fade-up-a px-4 xl:px-0" style="animation-delay: 0.2s;" set:html={content.description}></p>
       <div
-        class="w-full fade-up-a motion-reduce:animate-none motion-reduce:opacity-100"
+        id="hero-buttons-track"
+        class="w-full fade-up-a motion-reduce:animate-none motion-reduce:opacity-100 px-4 xl:px-0"
         style="animation-delay: 0.4s;"
       >
         <div
           id="hero-buttons"
-          class="flex justify-center items-center gap-4 w-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none"
-          style="transform: translateY(0); opacity: 1;"
+          class="flex justify-center items-center gap-4 w-full will-change-transform motion-reduce:transition-none"
         >
         <Button
           text={content.buttons[0].label}
@@ -66,7 +66,7 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
           href={content.buttons[1].href}
           textClass="capitalized"
           colorText="text-primary"
-          extraBtnClass="flex bg-white border-white"
+          extraBtnClass="flex bg-white border-white hero-dock-ghost"
           width="w-full md:w-[204px]"
         />
       </div>
@@ -74,3 +74,394 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
     </div>
   </div>
 </section>
+
+<!-- is:global: el <a> del botón lo renderiza Button.astro, así que el scope
+  de Hero no lo alcanza y la regla del cambio de color nunca aplicaría.
+  Todo va anclado por ID único, así que global es seguro. -->
+<style is:global>
+  /* OJO: aquí solo propiedades que NO afectan layout (fondo, sombra).
+     El padding cambia instantáneo a propósito: la caja de contenido queda
+     idéntica (vw-32 tanto en hero como abajo fija con p-4), así los botones
+     mantienen sus px exactos durante todo el vuelo sin encogerse. */
+  #hero-buttons {
+    transition:
+      background-color 1s ease-in-out,
+      box-shadow 1s ease-in-out;
+  }
+
+  /* Solo móvil (igual que el `md:hidden` del Floater original). */
+  @media (max-width: 767px) {
+    #hero-buttons.is-docked {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      width: 100%;
+      background-color: #fff;
+      padding: 1rem;
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+      border-radius: 0;
+      box-shadow:
+        0 -90px 25px 0 rgba(0, 0, 0, 0),
+        0 -57px 23px 0 rgba(0, 0, 0, 0.01),
+        0 -32px 19px 0 rgba(0, 0, 0, 0.05),
+        0 -14px 14px 0 rgba(0, 0, 0, 0.09),
+        0 -4px 8px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /* El segundo botón pasa de blanco/texto-primary a fondo azul con texto
+       blanco — idéntico al segundo botón del FloaterButtons original
+       (`bg-primary border-primary` + `text-white`). Duración lenta para que
+       el cambio de color acompañe al vuelo hacia abajo. */
+    #hero-buttons .hero-dock-ghost,
+    #hero-buttons .hero-dock-ghost p {
+      transition-duration: 1s;
+    }
+    #hero-buttons.is-docked a.hero-dock-ghost {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+    #hero-buttons.is-docked a.hero-dock-ghost p {
+      color: #fff;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const bar = document.getElementById("hero-buttons");
+    const track = document.getElementById("hero-buttons-track");
+    if (!bar || !track) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const FLY_MS = 1100;
+    const EASING = "cubic-bezier(0.65, 0, 0.35, 1)";
+    const TRIGGER_RATIO = 0.3;
+
+    let docked = false;
+    let leaving = false;
+    let ticking = false;
+    let anim = null;
+    let extraAnims = [];
+    let reverseRaf = 0;
+
+    const lockTrack = () => {
+      track.style.minHeight = `${track.getBoundingClientRect().height}px`;
+    };
+    const unlockTrack = () => {
+      track.style.minHeight = "";
+    };
+    const cancelAnim = () => {
+      if (reverseRaf) {
+        cancelAnimationFrame(reverseRaf);
+        reverseRaf = 0;
+      }
+      if (anim) anim.cancel();
+      extraAnims.forEach((a) => {
+        try { a.cancel(); } catch (_) {}
+      });
+      anim = null;
+      extraAnims = [];
+    };
+    const easeInOutCubic = (p) =>
+      p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+
+    const ghostEls = () => {
+      const a = bar.querySelector("a.hero-dock-ghost");
+      return { a, ps: a ? Array.from(a.querySelectorAll("p")) : [] };
+    };
+
+    const snapStyles = () => {
+      const b = getComputedStyle(bar);
+      const { a, ps } = ghostEls();
+      const ga = a ? getComputedStyle(a) : null;
+      return {
+        bar: {
+          backgroundColor: b.backgroundColor,
+          boxShadow: b.boxShadow,
+        },
+        ghost: ga
+          ? {
+              backgroundColor: ga.backgroundColor,
+              borderColor: ga.borderColor,
+              color: ga.color,
+            }
+          : null,
+        pColors: ps.map((p) => getComputedStyle(p).color),
+      };
+    };
+
+    const animateGhost = (from, to) => {
+      const out = [];
+      if (!from.ghost || !to.ghost) return out;
+      const { a, ps } = ghostEls();
+      if (!a) return out;
+      out.push(
+        a.animate(
+          [
+            {
+              backgroundColor: from.ghost.backgroundColor,
+              borderColor: from.ghost.borderColor,
+              color: from.ghost.color,
+            },
+            {
+              backgroundColor: to.ghost.backgroundColor,
+              borderColor: to.ghost.borderColor,
+              color: to.ghost.color,
+            },
+          ],
+          { duration: FLY_MS, easing: EASING }
+        )
+      );
+      ps.forEach((p, i) => {
+        if (from.pColors[i] === undefined || to.pColors[i] === undefined) return;
+        out.push(
+          p.animate([{ color: from.pColors[i] }, { color: to.pColors[i] }], {
+            duration: FLY_MS,
+            easing: EASING,
+          })
+        );
+      });
+      return out;
+    };
+
+    // --- Helpers para aislar JS de CSS Transitions ---
+    const disableTransitions = () => {
+      bar.style.transition = "none";
+      const { a, ps } = ghostEls();
+      if (a) a.style.transition = "none";
+      ps.forEach((p) => (p.style.transition = "none"));
+    };
+    const enableTransitions = () => {
+      bar.style.transition = "";
+      const { a, ps } = ghostEls();
+      if (a) a.style.transition = "";
+      ps.forEach((p) => (p.style.transition = ""));
+    };
+
+    const dockInstant = () => {
+      cancelAnim();
+      leaving = false;
+      if (docked && bar.parentElement === document.body) return;
+      lockTrack();
+      document.body.appendChild(bar);
+      bar.classList.add("is-docked");
+      docked = true;
+    };
+
+    const undockInstant = () => {
+      cancelAnim();
+      leaving = false;
+      if (!docked && bar.parentElement === track) return;
+      track.appendChild(bar);
+      bar.classList.remove("is-docked");
+      unlockTrack();
+      docked = false;
+    };
+
+    const dockAnimated = () => {
+      const first = bar.getBoundingClientRect();
+      const start = snapStyles();
+      
+      lockTrack();
+      cancelAnim();
+      
+      disableTransitions();
+      document.body.appendChild(bar);
+      bar.classList.add("is-docked");
+      
+      void bar.offsetHeight;
+      
+      const last = bar.getBoundingClientRect();
+      const end = snapStyles();
+      const dy = first.top - last.top;
+      
+      enableTransitions();
+      
+      docked = true;
+      anim = bar.animate(
+        [
+          {
+            transform: `translateY(${dy}px)`,
+            backgroundColor: start.bar.backgroundColor,
+            boxShadow: start.bar.boxShadow,
+          },
+          {
+            transform: "translateY(0px)",
+            backgroundColor: end.bar.backgroundColor,
+            boxShadow: end.bar.boxShadow,
+          },
+        ],
+        { duration: FLY_MS, easing: EASING }
+      );
+      extraAnims = animateGhost(start, end);
+      
+      const flight = anim;
+      flight.onfinish = () => {
+        if (anim !== flight) return;
+        anim = null;
+        extraAnims = [];
+      };
+      flight.oncancel = () => {
+        if (anim !== flight) return;
+        anim = null;
+        extraAnims = [];
+      };
+    };
+
+    const undockAnimated = () => {
+      cancelAnim();
+      leaving = true;
+      const first = bar.getBoundingClientRect(); 
+
+      const start = snapStyles();
+      const startComp = getComputedStyle(bar);
+      const startPt = startComp.paddingTop;
+      const startPb = startComp.paddingBottom;
+      const startPl = startComp.paddingLeft;   // Capturamos el padding horizontal
+      const startPr = startComp.paddingRight;
+
+      disableTransitions(); 
+      
+      bar.classList.remove("is-docked");
+      
+      void bar.offsetHeight; 
+      
+      const end = snapStyles(); 
+      const endComp = getComputedStyle(bar);
+      const endPt = endComp.paddingTop;
+      const endPb = endComp.paddingBottom;
+
+      bar.style.position = "fixed";
+      bar.style.top = `${first.top}px`;
+      bar.style.bottom = "auto";
+      bar.style.left = "0";
+      bar.style.right = "0";
+      bar.style.width = "100%";
+      bar.style.zIndex = "40";
+      bar.style.margin = "0";
+
+      // Mantener el padding lateral igual al px-4 del track para que quede fijo durante el vuelo
+      bar.style.paddingLeft = startPl;
+      bar.style.paddingRight = startPr;
+
+      // Animar colores Y padding (solo top/bottom)
+      const morph = bar.animate(
+        [
+          {
+            backgroundColor: start.bar.backgroundColor,
+            boxShadow: start.bar.boxShadow,
+            paddingTop: startPt,
+            paddingBottom: startPb,
+          },
+          {
+            backgroundColor: end.bar.backgroundColor,
+            boxShadow: end.bar.boxShadow,
+            paddingTop: endPt,
+            paddingBottom: endPb,
+          },
+        ],
+        { duration: FLY_MS, easing: EASING }
+      );
+      anim = morph;
+      extraAnims = animateGhost(start, end);
+
+      const t0 = performance.now();
+      let completed = false;
+      const completeReverse = () => {
+        if (completed || !leaving) return;
+        completed = true;
+        if (reverseRaf) {
+          cancelAnimationFrame(reverseRaf);
+          reverseRaf = 0;
+        }
+        morph.cancel();
+        extraAnims.forEach((a) => a.cancel());
+        
+        enableTransitions(); 
+        
+        track.appendChild(bar);
+        bar.style.cssText = ""; // Al limpiar esto, el px-4 del padre toma el control perfecto
+        unlockTrack();
+        docked = false;
+        leaving = false;
+        anim = null;
+        extraAnims = [];
+      };
+
+      const step = (now) => {
+        if (!leaving || completed) return;
+        const p = Math.min(1, (now - t0) / FLY_MS);
+        const e = easeInOutCubic(p);
+        const target = track.getBoundingClientRect(); 
+        bar.style.transform = `translateY(${(target.top - first.top) * e}px)`;
+        if (p < 1) {
+          reverseRaf = requestAnimationFrame(step);
+          return;
+        }
+        completeReverse();
+      };
+      reverseRaf = requestAnimationFrame(step);
+      
+      morph.onfinish = () => {
+        if (anim !== morph) return;
+        completeReverse();
+      };
+      morph.oncancel = () => {
+        if (anim !== morph) return;
+        anim = null;
+        extraAnims = [];
+      };
+    };
+
+    const update = (animate = true) => {
+      ticking = false;
+      const shouldDock =
+        mobileQuery.matches &&
+        window.scrollY > window.innerHeight * TRIGGER_RATIO;
+      if (shouldDock) {
+        if (leaving) {
+          cancelAnim();
+          leaving = false;
+          enableTransitions();
+          bar.style.cssText = "";
+          bar.classList.add("is-docked");
+          docked = true;
+          return;
+        }
+        if (docked) return;
+        if (!animate || reduceMotion.matches) dockInstant();
+        else dockAnimated();
+      } else {
+        if (!mobileQuery.matches) {
+          undockInstant();
+          return;
+        }
+        if (!docked || leaving) return;
+        if (!animate || reduceMotion.matches) undockInstant();
+        else undockAnimated();
+      }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => update(true));
+      }
+    };
+
+    update(false);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    if (mobileQuery.addEventListener) {
+      mobileQuery.addEventListener("change", () => update(false));
+    }
+    if (reduceMotion.addEventListener) {
+      reduceMotion.addEventListener("change", () => update(false));
+    }
+  })();
+</script>
