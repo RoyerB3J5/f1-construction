@@ -21,9 +21,9 @@ const { content } = Astro.props as Props;
     </div>
   </div>
 
-  <div class="bg-[#F2F4F6] flex flex-col justify-center items-start px-4 py-6 lg:p-8 rounded-2xl w-full md:w-1/2  fade-up-a gap-4">
+  <div class="bg-[#F2F4F6] flex flex-col justify-center items-start  py-6 lg:py-8 rounded-2xl w-full md:w-1/2  fade-up-a gap-4">
     {/**/}
     <FormContact /> 
-    <p>{content.information}</p>
+    <p class='px-4 lg:px-8'>{content.information}</p>
   </div>
 </section>
