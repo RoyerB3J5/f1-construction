@@ -1,4 +1,5 @@
 ---
+import ButtonArrow from "./ButtonArrow.astro";
 // Detect language from path like other components
 const currentPath = Astro.url.pathname;
 const match = currentPath.match(/^\/(en|es)/);
@@ -56,6 +57,7 @@ const currentLang = match ? match[1] : "en";
         class={`text-[15px] leading-[150%] uppercase transition-all duration-300 ease-in-out gap-2 flex justify-center items-center `}
       >
         <p>ENGLISH</p>
+        {currentLang === "en" && <ButtonArrow />}
       </div>
     </button>
     <button
@@ -67,6 +69,7 @@ const currentLang = match ? match[1] : "en";
         class={`text-[15px]  leading-[150%] uppercase transition-all duration-300 ease-in-out gap-2 flex justify-center items-center`}
       >
         <p>ESPAÑOL</p>
+        {currentLang === "es" && <ButtonArrow />}
       </div>
     </button>
   </div>

@@ -2,13 +2,13 @@
 import en from "../../i18n/en";
 import es from "../../i18n/es";
 import Layout from "../../layouts/Layout.astro";
+import Approach from "../../sections/Approach.astro";
+import Build from "../../sections/Build.astro";
 import Contact from "../../sections/Contact.astro";
-import Faqs from "../../sections/Faqs.astro";
-import Goal from "../../sections/Goal.astro";
 import Hero from "../../sections/Hero.astro";
 import Services from "../../sections/Services.astro";
 import Steps from "../../sections/Steps.astro";
-import Strategic from "../../sections/Strategic.astro";
+
 
 import type { Language } from "../../types/language.type";
 
@@ -23,16 +23,6 @@ const translations = { es, en };
 const t = translations[lang];
 const seo = t.seo.main;
 
-// FAQ rich-result schema built from the page content (read-only use of main).
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: t.main.faqs.map((item) => ({
-    "@type": "Question",
-    name: item.question.replace(/^\d+\.\s*/, ""),
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-};
 ---
 
 <Layout
@@ -42,13 +32,11 @@ const faqSchema = {
   description={seo.description}
   keywords={seo.keywords}
   canonicalPath="/"
-  structuredData={faqSchema}
 >
   <Hero content={t.main.hero} />
   <Services content={t.main.services} />
-  <Strategic content={t.main.strategic} />
-  <Goal content={t.main.goal} />
+  <Build content={t.main.build} />
+  <Approach content={t.main.approach} />
   <Steps content={t.main.steps} />
-  <Contact content={t.main.formContact} />
-  <Faqs content={t.main.faqs} />
+  <Contact content={t.main.contact} />
 </Layout>

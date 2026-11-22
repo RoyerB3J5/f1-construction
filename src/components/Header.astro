@@ -27,15 +27,6 @@ const lang = match ? match[1] : "en";
   data-header
   style="transition: transform 0.3s ease-out, background-color 0.3s ease-out; will-change: transform;"
 >
-  <div
-    class="bg-primary py-2.5 flex justify-center items-center gap-2 w-full "
-    
-  >
-    <p
-      class="text-[14px] md:text-[13px] font-medium leadong-[100%] text-white"
-      set:html={content?.description}
-    />
-  </div>
   <div class="w-full flex justify-center items-center h-18 md:h-20">
     <div class="container-full flex justify-between items-center relative">
       <a
@@ -52,41 +43,42 @@ const lang = match ? match[1] : "en";
           class="cursor-pointer w-[194px] h-auto"
         />
       </a>
-      <div
-        class="relative xl:flex flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out hidden"
-      >
-        <nav>
-          <ul class="flex relative items-center flex-row justify-center w-auto">
-            {
-              content?.nav.map((item, index) => {
-                const itemPathWithoutHash = item.href.split("#")[0];
-                const isActive = normalized === itemPathWithoutHash;
-                return (
-                  <li
-                    class={`flex flex-row items-center justify-center group w-auto text-center $`}
-                    id={`nav-item-${index}`}
-                  >
-                    <a
-                      href={`/${lang}${item.href}`}
-                      class="relative transition-colors duration-300 flex justify-center items-center w-[112px]"
-                    >
-                      <p
-                        class={`text-[16px] font-medium leading-[120%] transition-all duration-300 ease-in-out text-primary   font-paragraph`}
-                        set:html={item.label}
-                      />
-                      <span
-                        class={`absolute -bottom-5 left-1/2 h-0.5 bg-secondary transition-all duration-300 ease-out -translate-x-1/2 ${isActive ? "w-full" : "w-0 group-hover:w-full group-hover:bg-secondary"}`}
-                      />
-                    </a>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </nav>
-      </div>
+      
 
       <div class="flex justify-center items-center gap-2 md:gap-4">
+        <div
+          class="relative xl:flex flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out hidden"
+        >
+          <nav>
+            <ul class="flex relative items-center flex-row justify-center w-auto gap-2">
+              {
+                content?.nav.map((item, index) => {
+                  const itemPathWithoutHash = item.href.split("#")[0];
+                  const isActive = normalized === itemPathWithoutHash;
+                  return (
+                    <li
+                      class={`flex flex-row items-center justify-center group w-auto text-center $`}
+                      id={`nav-item-${index}`}
+                    >
+                      <a
+                        href={`/${lang}${item.href}`}
+                        class="relative transition-colors duration-300 flex justify-center items-center px-6"
+                      >
+                        <p
+                          class={`text-[16px] font-medium leading-[120%] transition-all duration-300 ease-in-out text-primary   font-paragraph`}
+                          set:html={item.label}
+                        />
+                        <span
+                          class={`absolute -bottom-5 left-1/2 h-0.5 bg-secondary transition-all duration-300 ease-out -translate-x-1/2 ${isActive ? "w-full" : "w-0 group-hover:w-full group-hover:bg-secondary"}`}
+                        />
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </nav>
+        </div>
         <Button
           text={content?.buttons[0].label}
           href={content?.buttons[0].href}
@@ -146,7 +138,7 @@ const lang = match ? match[1] : "en";
               return (
                 <>
                   <li
-                    class={`flex flex-col items-start justify-start group gap-3.5 px-4 w-full text-start  ${isActive ? "bg-primary text-white uppercase " : ""}`}
+                    class={`flex flex-col items-start justify-start group gap-3.5 px-4 w-full text-start  ${isActive ? "bg-primary text-white uppercase " : "text-primary"}`}
                     id={`mobile-nav-item-${index}`}
                   >
                     <a
@@ -178,8 +170,8 @@ const lang = match ? match[1] : "en";
       text={content?.buttons[1].label}
       href={content?.buttons[1].href}
       target="_blank"
-      textClass=" text-[#1E1E1E]"
-      extraBtnClass={`bg-transparent border-[#1E1E1E] w-full`}
+      textClass=" text-primary"
+      extraBtnClass={`bg-transparent border-primary w-full`}
     />
   </div>
 </div>

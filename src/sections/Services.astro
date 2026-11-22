@@ -1,5 +1,4 @@
 ---
-import Button from "../components/Button.astro";
 type Translations = typeof import("../i18n/en").default;
 type Content = Translations["main"]["services"];
 interface Props {
@@ -7,27 +6,25 @@ interface Props {
 }
 const { content } = Astro.props as Props;
 ---
-<section class="w-full flex justify-center items-center" id="services" aria-label="Services">
-  <div class="container-full flex flex-col justify-center items-center gap-8 md:gap-14 py-16 md:py-20">
-    <div class='flex flex-col justify-center items-start md:items-center gap-8'> 
-      <h2 class='subtitle text-primary capitalize text-center fade-up-a'>{content.title}</h2>
-      <p set:html={content.description} class="text-start md:text-center text-primary paragraph fade-up-a"></p>
-    </div>
-    <div class='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-      {
-        content.items.map((item)=>( 
-          <div class='flex flex-col justify-start items-center p-4 md:p-6 gap-6 border-[1.5px] border-[#DDDDDD] rounded-2xl fade-up-a'>
-            <div class="w-full h-auto relative overflow-hidden rounded-2xl flex justify-start items-start p-4 aspect-366/120 md:aspect-363/204">
-              <img src={`/images/${item.image}.webp`} alt={item.title} class="w-full h-full absolute inset-0 object-cover object-center z-0" width="800" height="450" decoding="async" loading="lazy"/>
-              <img src={`/images/${item.icon}.svg`} alt={item.title} class='w-12 h-12 relative z-10' width="48" height="48" decoding="async" loading="lazy"/>
-            </div>
-            <div class='w-full flex flex-col justify-center items-start gap-4'>
-              <h3 class='subtitle-sm text-primary capitalize'>{item.title}</h3>
-              <p class='paragraph text-primary'>{item.description}</p>
-            </div>
-          </div>
-        ))
-      }
-    </div>
+<section class="w-full flex justify-center items-center bg-white">
+  <div class='container-full grid grid-cols-2 lg:grid-cols-4 items-stretch gap-0 py-10'>
+    {
+      content.map((item,index)=>( 
+        <div
+          class={`relative flex min-w-0 flex-col justify-center lg:justify-start items-center lg:items-start gap-3 text-primary fade-up-a ${
+            index % 2 === 1
+              ? "after:absolute after:left-0 after:border-l after:border-[#01204E4D] pl-3"
+              : "pr-3"
+          } ${index >= 2 ? "border-t border-[#01204E4D] pt-[18px] after:top-[18px] after:bottom-0" : "pb-[18px] after:top-0 after:bottom-[18px]"} ${
+            index > 0 ? "lg:border-l lg:border-t-0 lg:border-[#01204E4D] lg:pl-6" : ""
+          } lg:after:hidden lg:pb-0 lg:pt-0 ${index < content.length - 1 ? "lg:pr-6" : ""}`}
+          style={`animation-delay: ${index * 100}ms`}
+        >
+          <img src={`/images/services-${index+1}.svg`} alt={item.title} class='w-6 h-6' decoding='async' loading="lazy"/>
+          <h3 class='text-[16px] lg:text-[14px] font-bold leading-[150%] lg:leading-[100%] tracking-[3px] text-center lg:text-left'>{item.title}</h3>
+          <p class='paragraph hidden md:block text-center'>{item.description}</p>
+        </div>
+      ))
+    }
   </div>
 </section>

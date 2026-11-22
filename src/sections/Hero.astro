@@ -39,27 +39,26 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
     class="w-full max-w-[1280px] h-full flex justify-cener items-start  relative z-10 pt-2 pb-6 xl:py-[1vw] 3xl:py-4 "
   >
     <div
-      class="flex flex-col justify-center items-center gap-5 w-full"
+      class="flex flex-col justify-center items-center gap-4 w-full"
     >
+      <p class='text-[14px] font-bold leading-[120%] uppercase tracking-[3px] text-primary text-center'>{content.tag}</p>
       <h1 class='title text-primary capitalize text-center fade-up-a px-4 xl:px-0'>{content.title}</h1>
       <p class="paragraph text-primary text-center fade-up-a px-4 xl:px-0" style="animation-delay: 0.2s;" set:html={content.description}></p>
       <div
-        id="hero-buttons-track"
+        
         class="w-full fade-up-a motion-reduce:animate-none motion-reduce:opacity-100 px-4 xl:px-0"
         style="animation-delay: 0.4s;"
       >
         <div
           id="hero-buttons"
-          class="flex justify-center items-center gap-4 w-full will-change-transform motion-reduce:transition-none"
+          class="flex flex-col md:flex-row justify-center items-center gap-4 w-full will-change-transform motion-reduce:transition-none"
         >
         <Button
           text={content.buttons[0].label}
           href={content.buttons[0].href}
           textClass="capitalized"
           extraBtnClass="flex bg-secondary border-secondary"
-          colorText="text-white"
-          width="w-full md:w-[204px]" 
-          
+          colorText="text-white"          
         />
         <Button
           text={content.buttons[1].label}
@@ -67,7 +66,6 @@ const isHomePage = /^\/(en|es)?\/?$/.test(pathname);
           textClass="capitalized"
           colorText="text-primary"
           extraBtnClass="flex bg-white border-white hero-dock-ghost"
-          width="w-full md:w-[204px]"
         />
       </div>
       </div>

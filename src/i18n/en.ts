@@ -1,28 +1,18 @@
 export default {
   header: {
-    description:
-      "20% off your first month ·  <a href='#contact' class=' underline decoration-secondary underline-offset-4 text-secondary'>Get a quote today</a>",
     nav: [
       {
-        label: "Home",
-        href: "/",
+        label: "What We Build",
+        href: "#what-we-build",
       },
       {
-        label: "Services",
-        href: "#services",
-      },
-      {
-        label: "About",
-        href: "#about",
-      },
-      {
-        label: "FAQs",
-        href: "#faqs",
+        label: "Our Approach",
+        href: "#our-approach",
       },
     ],
     buttons: [
       {
-        label: "Project Consultation",
+        label: "Get a Quote ",
         href: "#contact",
       },
       {
@@ -33,175 +23,100 @@ export default {
   },
   main: {
     hero: {
-      title: "strategic construction",
+      tag: "Central Florida • Residential & Commercial",
+      title: "We build spaces. For what’s next.",
       description:
-        "Foundation One partners with HOA boards and property owners to deliver restoration and capital <br/> improvement solutions designed to preserve value and strengthen communities.",
+        "Commercial spaces, multifamily properties, and homes. Built with purpose.",
       buttons: [
         {
-          label: "Project Consultation",
+          label: "Discuss Your Project",
           href: "#contact",
         },
         {
           label: "Call Us",
-          href: "tel:+14078375573",
+          href: "tel:+14078012729",
         },
       ],
     },
-    services: {
-      title: "Restoration & Capital Improvement Services",
-      description:
-        "Practical construction solutions for existing communities and commercial properties, planned <br/> around the needs, priorities and available funding of each project.",
+    services: [
+      {
+        title: "COMMERCIAL CONSTRUCTION",
+        description: "Retail | Office | Industrial | Mixed-Use",
+      },
+      {
+        title: "RESIDENTIAL DEVELOPMENT",
+        description: "New builds | Remodels | Additions | Custom Homes",
+      },
+      {
+        title: "GENERAL CONTRACTING",
+        description: "Complete project management",
+      },
+      {
+        title: "DESIGN & BUILD SOLUTIONS",
+        description: "Value engineering cost efficiency",
+      },
+    ],
+    build: {
+      tag: "What we do",
+      title: "What we build.",
       items: [
         {
-          title: "Exterior Restoration",
+          title: "Commercial Construction",
           description:
-            "Protect and improve the building exterior through organized restoration work focused on long-term property value.",
+            "Coffee shops, restaurants, retail spaces, and tenant build-outs.",
           image: "services-1",
-          icon: "icon-services-1",
         },
         {
-          title: "Roofing & Waterproofing",
-          description:
-            "Address roofing and waterproofing needs as part of a broader restoration strategy for existing properties.",
+          title: "Multifamily & Communities",
+          description: "Apartments, condominiums, and HOA improvements. ",
           image: "services-2",
-          icon: "icon-services-2",
         },
         {
-          title: "Concrete & Structural Repairs",
-          description:
-            "Coordinate concrete and structural repair work with clear scopes, scheduling and specialty-trade coordination.",
+          title: "Residential Construction",
+          description: "Custom homes, renovations, and Additions (ADU)",
           image: "services-3",
-          icon: "icon-services-3",
-        },
-        {
-          title: "Balcony Restoration",
-          description:
-            "Restore and improve balcony areas with an organized approach that considers the broader needs of the property.",
-          image: "services-4",
-          icon: "icon-services-4",
-        },
-        {
-          title: "Painting & Coatings",
-          description:
-            "Improve and protect building surfaces through coordinated painting and coating projects.",
-          image: "services-5",
-          icon: "icon-services-5",
-        },
-        {
-          title: "Building-Envelope Improvements",
-          description:
-            "Plan improvements that strengthen the building envelope and contribute to the useful life of the property.",
-          image: "services-6",
-          icon: "icon-services-6",
-        },
-        {
-          title: "Renovations & Planned Construction",
-          description:
-            "Manage renovation and planned construction projects with practical phasing, permitting and trade coordination when appropriate.",
-          image: "services-7",
-          icon: "icon-services-7",
         },
       ],
     },
-    strategic: {
-      title:
-        "A Strategic Construction Partner for Communities and Property Owners",
-      description:
-        "Foundation One Construction works with HOA boards, condominium associations, community association managers, property management companies and commercial property owners to plan, manage and execute restoration and capital improvement projects.",
+    approach: {
+      tag: "Let's build what's next",
+      title: "Less complexity. <br/> More confidence.",
+      description: "One team to plan, manage, and build your project.",
       button: {
-        label: "Project Consultation",
+        label: "Let's Talk About Your Project ",
         href: "#contact",
       },
     },
-    goal: {
-      tag: "Our goal is simple: ",
-      title:
-        "Protect the property, improve its useful life and preserve long-term community value.",
-    },
-    steps: {
-      title: "A Clear, Organized Approach to Construction",
-      description:
-        "Every project starts with understanding what needs to be done, what matters most and how the <br/> work can be organized around the property's needs and available resources.",
-      items: [
-        {
-          title: "Scope Review",
-          description:
-            "We review the property's needs, project priorities and the work required to address them.",
-        },
-        {
-          title: "Project Planning",
-          description:
-            "We develop a practical plan that considers scope, scheduling, budget considerations, permitting and required trades.",
-        },
-        {
-          title: "Phasing & Coordination",
-          description:
-            "When appropriate, phases align construction priorities with funding availability and community needs.",
-        },
-        {
-          title: "Construction & Communication",
-          description:
-            "We coordinate construction, trades, inspections, owners, and unforeseen conditions transparently.",
-        },
-      ],
-    },
-    formContact: {
-      title: "Request a Project <br/> Consultation",
-      description:
-        "Tell us about your property, restoration needs or capital improvement project. Our team can review the information and discuss the next steps with you.",
-      information:
-        "Clear information helps us understand your project and determine the right next conversation.",
-    },
-    faqs: [
+    steps: [
       {
-        question: "1. What types of properties does Foundation One serve?",
-        answer:
-          "We work with HOA boards, condominium associations, community association managers, property management companies, commercial property owners, multifamily and investment property owners, and developers or owners requiring restoration or capital improvement work.",
+        title: "01. Plan",
+        description: "Define the scope and goals.",
       },
       {
-        question: "2. What services does Foundation One provide?",
-        answer:
-          "Our focus includes exterior restoration, roofing, waterproofing, concrete and structural repairs, balcony restoration, painting and coatings, building-envelope improvements, renovations and planned construction.",
+        title: "02. Build",
+        description: "Manage construction from start to finish.",
       },
       {
-        question: "3. Can a project be completed in phases?",
-        answer:
-          "When appropriate, projects can be organized into phases to align construction priorities with available funding and community needs.",
-      },
-      {
-        question: "4. How does Foundation One approach project budgets?",
-        answer:
-          "We focus on clear scopes, realistic timelines and a budget-conscious approach. Existing-building restoration can reveal conditions that are not visible before construction begins, so the plan may need to adapt as the project progresses.",
-      },
-      {
-        question: "5. Do you coordinate permits and specialty trades?",
-        answer:
-          "Yes. The project approach includes coordination of permitting, scheduling, inspections, subcontractors and licensed specialty trades when required.",
-      },
-      {
-        question: "6. How do you communicate during a project?",
-        answer:
-          "We communicate throughout the project and address unforeseen conditions transparently, helping boards and owners understand changes and next steps.",
-      },
-      {
-        question: "7. Where does Foundation One serve?",
-        answer:
-          "The primary market is Central Florida, with a focus on qualified community association, condominium, property-management and commercial opportunities throughout the region and surrounding service areas.",
+        title: "03. Deliver",
+        description: "Finish with quality and care.",
       },
     ],
-  },
-  footer: {
-    description: "A Strategic Construction Partner ",
-    copy: "© 2026 Inkshape Group · Privacy · Terms",
+    contact: {
+      tag: "Let's build what's next",
+      title: "Have a project <br/> <span class='text-secondary'>in mind?</span>",
+      description: "Tell us what you want to build.",
+      city: "Central Florida Based",
+      formDescription:
+        "This opens your email app with a prepared inquiry. No information is submitted to a server.",
+    },
   },
   seo: {
     main: {
-      title:
-        "HOA Restoration in Central Florida | Foundation One Construction",
+      title: "Commercial Construction in Central Florida | Foundation One",
       description:
-        "Strategic restoration and capital improvement partner for HOA boards, condos and property owners in Central Florida. Request a project consultation.",
+        "Foundation One Construction provides commercial, multifamily and residential construction, general contracting and design-build solutions throughout Central Florida.",
       keywords:
-        "HOA restoration Central Florida, condominium restoration, capital improvement contractor, exterior restoration, roofing and waterproofing, concrete and structural repair, balcony restoration, painting and coatings, building envelope improvements, Orlando general contractor",
+        "commercial construction Central Florida, residential construction, multifamily construction, general contractor Orlando, design-build contractor, retail build-outs, tenant improvements, custom homes, renovations, ADU construction",
     },
   },
 };

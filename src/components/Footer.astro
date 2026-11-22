@@ -1,13 +1,6 @@
 ---
 import { phoneNumber, phoneNumberLink } from "../constants/info";
 
-type Translations = typeof import("../i18n/en").default;
-type FooterContent = Translations["footer"];
-interface Props {
-  content?: FooterContent;
-}
-const { content } = Astro.props as Props;
-
 // Obtener la ruta actual y normalizar el path sin prefijo de idioma
 const currentPath = Astro.url.pathname;
 // Normalizar: remover idioma y trailing slash
@@ -19,24 +12,6 @@ const lang = match ? match[1] : "en";
 ---
 
 <footer class="flex flex-col justify-center items-center w-full">
-  <div class='w-full flex flex-col justify-center items-center gap-4 py-18 bg-primary text-white'>
-    <a
-        href={`/${lang}`}
-        aria-label="Ir a la página principal"
-        title="Foundation One Construction"
-      >
-        <img
-          src="/images/logo-white.svg"
-          alt="Logo de Foundation One Construction"
-          title="Foundation One Construction"
-          width="152"
-          height="25"
-          class="cursor-pointer w-[152px] h-auto"
-        />
-      </a>
-      <p class="text-[12px] font-normal leading-[162%]">{content?.description}</p>
-      <p class="text-[12px] font-normal leading-[162%]">{content?.copy}</p>
-  </div>
   <div
     class="bg-[#E5E5E5] w-full py-3.5 lg:py-4.5 flex justify-center items-center px-5 xl:px-0"
   >
