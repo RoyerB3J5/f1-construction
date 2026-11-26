@@ -23,10 +23,10 @@ const { content } = Astro.props as Props;
       <p class="paragraph text-primary fade-up-a" style="animation-delay: 600ms">{content.city}</p>
     </div>
 
-    <div class="bg-white flex flex-col justify-center items-start  px-4 py-6 lg:p-6 rounded-lg w-full lg:w-[60%]  fade-up-a gap-4">
-      {/*<FormContact /> */}
-      
-      <p class='paragraph text-primary text-left fade-up-a' style="animation-delay:300ms">{content.formDescription}</p>
+    <div class="bg-white flex flex-col justify-center items-start  px-4 py-6 lg:p-6 rounded-lg w-full lg:w-[60%]  fade-up-a gap-2 max-w-none lg:max-w-[628px]">
+      {/* */}
+      <FormContact />
+      <p class='text-[12px] font-normal leading-[120%] text-primary text-left fade-up-a' style="animation-delay:300ms">{content.formDescription}</p>
     </div>
   </div>
   
